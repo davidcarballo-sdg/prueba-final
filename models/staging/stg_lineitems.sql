@@ -17,4 +17,4 @@ select
     l_shipdate as ship_date,
     l_linestatus as line_status,
     l_returnflag as return_flag
-from {{ source('tpch', 'LINEITEM') }} [cite: 2, 4]
+from {{ source('tpch', 'LINEITEM') }}

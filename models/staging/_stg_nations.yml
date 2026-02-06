@@ -1,0 +1,13 @@
+version: 2
+
+models:
+  - name: stg_nations
+    description: "Listado de naciones según el estándar TPC-H."
+    columns:
+      - name: nation_id
+        tests:
+          - unique
+          - not_null
+      - name: region_id
+        tests:
+          - not_null

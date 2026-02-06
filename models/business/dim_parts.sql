@@ -8,6 +8,6 @@ select
     part_id,
     part_name,
     brand,
-    part_type,
+    type,
     retail_price
 from parts

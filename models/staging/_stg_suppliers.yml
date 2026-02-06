@@ -1,0 +1,15 @@
+version: 2
+
+models:
+  - name: stg_suppliers
+    description: "Maestro de proveedores con información de contacto y balance."
+    columns:
+      - name: supplier_id
+        description: "Clave primaria del proveedor."
+        tests:
+          - unique
+          - not_null
+      - name: nation_id
+        description: "Relación con la tabla de naciones."
+        tests:
+          - not_null

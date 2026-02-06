@@ -1,10 +1,16 @@
 version: 2
+
 models:
   - name: stg_orders
+    description: "Modelo incremental que contiene la cabecera de los pedidos."
     columns:
-      - name: order_key
+      - name: order_id
         tests:
           - unique
+          - not_null
+      - name: order_date
+        description: "Fecha del pedido utilizada para el filtro de carga incremental."
+        tests:
           - not_null
       - name: total_price
         tests:

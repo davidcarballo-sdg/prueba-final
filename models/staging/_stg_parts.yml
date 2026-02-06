@@ -1,0 +1,15 @@
+version: 2
+
+models:
+  - name: stg_parts
+    description: "Catálogo de piezas (Parts) con información técnica y de precios."
+    columns:
+      - name: part_id
+        description: "Clave primaria de la pieza."
+        tests:
+          - unique
+          - not_null
+      - name: retail_price
+        description: "Precio de venta sugerido."
+        tests:
+          - not_null

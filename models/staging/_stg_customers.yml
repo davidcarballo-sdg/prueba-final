@@ -1,0 +1,15 @@
+version: 2
+
+models:
+  - name: stg_customers
+    description: "Modelo de staging para la entidad de clientes, con limpieza de nombres y eliminación de comentarios."
+    columns:
+      - name: customer_id
+        description: "Clave primaria del cliente."
+        tests:
+          - unique
+          - not_null
+      - name: nation_id
+        description: "Clave foránea hacia la tabla de naciones."
+        tests:
+          - not_null

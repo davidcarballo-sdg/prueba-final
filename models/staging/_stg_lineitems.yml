@@ -1,0 +1,15 @@
+version: 2
+
+models:
+  - name: stg_lineitem
+    description: "Detalle atómico de las líneas de cada pedido."
+    columns:
+      - name: order_id
+        tests:
+          - not_null
+      - name: part_id
+        tests:
+          - not_null
+      - name: quantity
+        tests:
+          - not_null

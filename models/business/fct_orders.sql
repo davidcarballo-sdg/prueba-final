@@ -3,15 +3,34 @@
 with orders as (
     select * from {{ ref('stg_orders') }}
 ),
-customers as (
-    select * from {{ ref('stg_customers') }}
+
+lineitem as (
+    select * from {{ ref('stg_lineitems') }}
 )
 
 select
-    o.order_id,
+    -- Identificadores (Keys)
+    l.order_id,
+    l.part_id,
+    l.supplier_id,
+    o.customer_id,
+    
+    -- Fechas
     o.order_date,
-    o.total_price,
-    c.name as customer_name,
-    c.phone_number
-from orders o
-left join customers c on o.customer_id = c.customer_id
+    l.ship_date,
+    
+    -- Métricas a nivel de línea
+    l.quantity,
+    l.extended_price,
+    l.discount_percentage,
+    l.tax_rate,
+    
+    -- Cálculo de Ingreso Neto: extended_price * (1 - discount) * (1 + tax)
+    (l.extended_price * (1 - l.discount_percentage) * (1 + l.tax_rate)) as net_revenue,
+    
+    -- Atributos de estado
+    o.order_status,
+    l.return_flag
+    
+from lineitem l
+inner join orders o on l.order_id = o.order_id

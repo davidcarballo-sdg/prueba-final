@@ -1,0 +1,10 @@
+version: 2
+
+models:
+  - name: stg_region
+    description: "Entidad de regiones (continentes/mercados globales)."
+    columns:
+      - name: region_id
+        tests:
+          - unique
+          - not_null

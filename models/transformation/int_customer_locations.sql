@@ -8,6 +8,7 @@ regions as (
 )
 
 select
+    {{ dbt_utils.generate_surrogate_key(['n.nation_id']) }} as location_key,
     n.nation_id,
     n.nation_name,
     r.region_name

@@ -1,9 +1,10 @@
 {{ config(
     materialized='incremental',
-    unique_key="concat(order_id, '-', line_number)"
+    unique_key="lineitem_id"
 ) }}
 
 select
+    concat(l_orderkey, '-', l_linenumber) as lineitem_id, -- Clave unica para incremental
     -- Keys 
     l_orderkey as order_id,
     l_partkey as part_id,

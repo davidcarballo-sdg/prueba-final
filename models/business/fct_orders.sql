@@ -5,9 +5,11 @@
 
 with order_items as (
     select * from {{ ref('int_order_items') }}
+    {{ m_incremental_filter('order_date') }}
 )
 
 select
+    order_item_key,
     -- Las dimensiones clave para filtrar y agrupar
     order_id,
     line_number,

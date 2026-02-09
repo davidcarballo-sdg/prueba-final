@@ -1,4 +1,7 @@
-{{ config(materialized='table') }}
+{{ config(
+    materialized='incremental',
+    unique_key='order_item_key' 
+) }}
 
 with order_items as (
     select * from {{ ref('int_order_items') }}

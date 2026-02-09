@@ -1,36 +1,31 @@
-{{ config(materialized='table') }}
+{{ config(
+    materialized='incremental',
+    unique_key='order_item_key' 
+) }}
 
-with orders as (
-    select * from {{ ref('stg_orders') }}
-),
-
-lineitem as (
-    select * from {{ ref('stg_lineitems') }}
+with order_items as (
+    select * from {{ ref('int_order_items') }}
+    {{ m_incremental_filter('order_date') }}
 )
 
 select
-    -- Identificadores (Keys)
-    l.order_id,
-    l.part_id,
-    l.supplier_id,
-    o.customer_id,
+    order_item_key,
+    -- Las dimensiones clave para filtrar y agrupar
+    order_id,
+    line_number,
+    customer_id,
+    part_id,
+    supplier_id,
+    order_date,
     
-    -- Fechas
-    o.order_date,
-    l.ship_date,
+    -- Los estados para análisis de ciclo de vida
+    order_status,
+    return_flag,
+    line_status,
     
-    -- Métricas a nivel de línea
-    l.quantity,
-    l.extended_price,
-    l.discount_percentage,
-    l.tax_rate,
-    
-    -- Cálculo de Ingreso Neto: extended_price * (1 - discount) * (1 + tax)
-    (l.extended_price * (1 - l.discount_percentage) * (1 + l.tax_rate)) as net_revenue,
-    
-    -- Atributos de estado
-    o.order_status,
-    l.return_flag
-    
-from lineitem l
-inner join orders o on l.order_id = o.order_id
+    -- Las métricas financieras finales ya calculadas
+    quantity,
+    extended_price,
+    discounted_price,
+    total_charge as net_amount -- Renombrado para el usuario de negocio
+from order_items

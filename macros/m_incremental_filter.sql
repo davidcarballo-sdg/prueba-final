@@ -3,3 +3,4 @@
         where {{ date_column }} > (select max(t.{{ date_column }}) from {{ this }} as t)
     {% endif %}
 {% endmacro %}
+

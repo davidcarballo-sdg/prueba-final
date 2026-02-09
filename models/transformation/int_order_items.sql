@@ -9,6 +9,7 @@ line_items as (
 )
 
 select
+    concat(l.order_id, '-', l.line_number) as order_item_key,
     -- Identificadores de ambas tablas
     l.order_id,
     l.line_number,

@@ -1,4 +1,4 @@
-{{ config(materialized='table') }}
+{{ config(materialized='view') }}
 select
     s_suppkey as supplier_id,
     s_name as supplier_name,

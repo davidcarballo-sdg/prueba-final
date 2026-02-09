@@ -1,6 +1,10 @@
-{{ config(materialized='table') }}
+{{ config(
+    materialized='incremental',
+    unique_key="lineitem_id"
+) }}
 
 select
+    concat(l_orderkey, '-', l_linenumber) as lineitem_id, -- Clave unica para incremental
     -- Keys 
     l_orderkey as order_id,
     l_partkey as part_id,
@@ -18,3 +22,6 @@ select
     l_linestatus as line_status,
     l_returnflag as return_flag
 from {{ source('tpch', 'LINEITEM') }}
+
+
+{{ m_incremental_filter('ship_date') }}
